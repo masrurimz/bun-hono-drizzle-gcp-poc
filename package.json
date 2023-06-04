@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "test": "bun test",
+    "start": "bun src/index.ts",
+    "test:watch": "bun --watch test",
+    "db:migrate": "bunx drizzle-kit generate:sqlite",
+    "deploy": "bash ./deploy.sh"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.26.3",
+    "hono": "^3.2.2"
+  },
+  "devDependencies": {
+    "bun-types": "^0.6.2",
+    "drizzle-kit": "^0.18.1",
+    "prettier": "^2.8.7"
+  }
+}
