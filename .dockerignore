@@ -7,10 +7,7 @@ src/db/migrations
 
 **/*.test.ts
 
-terraform.*
-.terraform
-.terraform.*
-*.tf
+terraform
 
 .gitignore
 .dockerignore
