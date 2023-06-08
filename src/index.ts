@@ -26,7 +26,7 @@ api.get('/posts', async (c) => {
   //   .returning({ id: users.id })
   //   .all();
   // console.log(id);
-  const posts = db.query.users.findMany({
+  const posts = await db.query.users.findMany({
     with: {
       posts: {
         columns: {

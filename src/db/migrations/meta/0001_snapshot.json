@@ -1,18 +1,18 @@
 {
   "version": "5",
-  "dialect": "sqlite",
-  "id": "6f5b92e5-e65b-41a6-91be-cbe74ba5cb66",
-  "prevId": "e5c509cf-e36a-4249-9055-5b9f943e0dd0",
+  "dialect": "pg",
+  "id": "0d8914ee-96e2-4bdd-8eaf-5735c6ffdc11",
+  "prevId": "f0917127-4542-4dfe-86ab-a323442d34cf",
   "tables": {
     "posts": {
       "name": "posts",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "title": {
           "name": "title",
@@ -30,8 +30,7 @@
           "name": "author_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -54,13 +53,13 @@
     },
     "users": {
       "name": "users",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "full_name": {
           "name": "full_name",
@@ -70,9 +69,16 @@
         },
         "phone": {
           "name": "phone",
-          "type": "text(256)",
+          "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
         }
       },
       "indexes": {},
@@ -81,6 +87,7 @@
     }
   },
   "enums": {},
+  "schemas": {},
   "_meta": {
     "schemas": {},
     "tables": {},

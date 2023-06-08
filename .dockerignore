@@ -13,5 +13,6 @@ terraform
 .dockerignore
 .git
 .idea
+.env
 
 deploy.sh

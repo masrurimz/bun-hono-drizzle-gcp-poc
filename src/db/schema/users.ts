@@ -1,35 +1,14 @@
-import {
-  customType,
-  integer,
-  sqliteTable,
-  text
-} from 'drizzle-orm/sqlite-core';
-import { InferModel, relations, sql } from 'drizzle-orm';
+import { pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { InferModel, relations } from 'drizzle-orm';
 import { posts } from './posts';
 
-const customTimestamp = customType<{
-  data: Date;
-  driverData: string;
-  config: { withTimezone: boolean; precision?: number };
-}>({
-  dataType(config) {
-    const precision =
-      typeof config?.precision !== 'undefined' ? ` (${config.precision})` : '';
-    return `timestamp${precision}${
-      config?.withTimezone ? ' with time zone' : ''
-    }`;
-  },
-  fromDriver(value: string): Date {
-    return new Date(value);
-  }
-});
-export const users = sqliteTable('users', {
-  id: integer('id').primaryKey(),
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
   fullName: text('full_name').notNull(),
-  phone: text('phone', { length: 256 }).notNull(),
-  createdAt: customTimestamp('created_at', { withTimezone: true })
+  phone: varchar('phone', { length: 256 }).notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
-    .default(sql`CURRENT_TIMESTAMP`)
+    .defaultNow()
 });
 
 export type User = InferModel<typeof users>;

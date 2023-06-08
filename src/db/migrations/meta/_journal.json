@@ -1,40 +1,19 @@
 {
   "version": "5",
-  "dialect": "sqlite",
+  "dialect": "pg",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1685638905242,
-      "tag": "0000_overjoyed_fenris",
+      "when": 1686124769013,
+      "tag": "0000_fixed_shooting_star",
       "breakpoints": false
     },
     {
       "idx": 1,
       "version": "5",
-      "when": 1685639727463,
-      "tag": "0001_certain_blindfold",
-      "breakpoints": false
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1685641166801,
-      "tag": "0002_fat_the_hunter",
-      "breakpoints": false
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1685641262079,
-      "tag": "0003_polite_korvac",
-      "breakpoints": false
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1685641992328,
-      "tag": "0004_parched_leper_queen",
+      "when": 1686125093188,
+      "tag": "0001_busy_goliath",
       "breakpoints": false
     }
   ]

@@ -1,18 +1,65 @@
 {
   "version": "5",
-  "dialect": "sqlite",
-  "id": "e5c509cf-e36a-4249-9055-5b9f943e0dd0",
+  "dialect": "pg",
+  "id": "f0917127-4542-4dfe-86ab-a323442d34cf",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "users": {
-      "name": "users",
+    "posts": {
+      "name": "posts",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "integer",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "message": {
+          "name": "message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "author_id": {
+          "name": "author_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "posts_author_id_users_id_fk": {
+          "name": "posts_author_id_users_id_fk",
+          "tableFrom": "posts",
+          "tableTo": "users",
+          "columnsFrom": [
+            "author_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
         },
         "full_name": {
           "name": "full_name",
@@ -22,9 +69,16 @@
         },
         "phone": {
           "name": "phone",
-          "type": "text(256)",
+          "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
         }
       },
       "indexes": {},
@@ -33,6 +87,7 @@
     }
   },
   "enums": {},
+  "schemas": {},
   "_meta": {
     "schemas": {},
     "tables": {},

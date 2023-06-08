@@ -1,0 +1,19 @@
+version: '3'
+
+volumes:
+  postgres:
+    driver: local
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-changeme}
+      POSTGRES_DB: ${DATABASE_DATABASE:-db}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "127.0.0.1:${DATABASE_PORT}:5432"
+    restart: unless-stopped
