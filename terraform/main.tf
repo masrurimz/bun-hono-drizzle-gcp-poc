@@ -17,22 +17,6 @@ terraform {
   }
 }
 
-variable "gcp_region" {
-  type        = string
-  description = "GCP Region to deploy to"
-  default     = "europe-west3"
-}
-
-variable "gcp_project" {
-  type        = string
-  description = "Project to deploy to"
-}
-
-variable "docker_image" {
-  type        = string
-  description = "Docker image name"
-}
-
 provider "google" {
   region  = var.gcp_region
   project = var.gcp_project
@@ -42,6 +26,10 @@ provider "google-beta" {
   region  = var.gcp_region
   project = var.gcp_project
 }
+
+#
+# DOCKER
+#
 
 resource "google_artifact_registry_repository" "docker-registry" {
   format        = "DOCKER"
@@ -65,30 +53,9 @@ resource "time_sleep" "wait_60_seconds" {
   create_duration = "60s"
 }
 
-# VPC access connector
-resource "google_vpc_access_connector" "serverless" {
-  name           = "vpcconn"
-  provider       = google-beta
-  ip_cidr_range  = "10.8.0.0/28"
-  max_throughput = 300
-  network        = google_compute_network.peering_network.name
-}
-
-# Cloud Router
-resource "google_compute_router" "router" {
-  name     = "router"
-  provider = google-beta
-  network  = google_compute_network.peering_network.id
-}
-
-# NAT configuration
-resource "google_compute_router_nat" "router_nat" {
-  name                               = "nat"
-  provider                           = google-beta
-  router                             = google_compute_router.router.name
-  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-  nat_ip_allocate_option             = "AUTO_ONLY"
-}
+#
+# RUN
+#
 
 resource "google_cloud_run_service" "app" {
   name                       = "hono-app"
@@ -154,9 +121,10 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
 
   policy_data = data.google_iam_policy.noauth.policy_data
 }
-output "service_url" {
-  value = google_cloud_run_service.app.status[0].url
-}
+
+#
+# SQL
+#
 
 resource "google_sql_database_instance" "instance" {
   name                = "hono-db"
@@ -174,10 +142,6 @@ resource "google_sql_database_instance" "instance" {
       enable_private_path_for_google_cloud_services = true
     }
   }
-}
-
-output "sql_ip" {
-  value = google_sql_database_instance.instance.private_ip_address
 }
 
 resource "google_sql_database" "database" {
@@ -205,28 +169,4 @@ resource "google_sql_user" "database-admin-user" {
   name     = "admin"
   instance = google_sql_database_instance.instance.name
   password = random_password.db_pwd.result
-}
-
-output "admin-db" {
-  value     = "postgresql://${google_sql_user.database-admin-user.name}:${random_password.db_admin_pwd.result}@/${google_sql_database.database.name}?host=/cloudsql/${google_sql_database_instance.instance.connection_name}"
-  sensitive = true
-}
-
-resource "google_compute_network" "peering_network" {
-  name                    = "private-network"
-  auto_create_subnetworks = "false"
-}
-
-resource "google_compute_global_address" "private_ip_address" {
-  name          = "private-ip-address"
-  purpose       = "VPC_PEERING"
-  address_type  = "INTERNAL"
-  prefix_length = 16
-  network       = google_compute_network.peering_network.id
-}
-
-resource "google_service_networking_connection" "default" {
-  network                 = google_compute_network.peering_network.id
-  service                 = "servicenetworking.googleapis.com"
-  reserved_peering_ranges = [google_compute_global_address.private_ip_address.name]
 }
