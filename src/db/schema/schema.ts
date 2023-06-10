@@ -1,4 +1,4 @@
-import * as users from './users';
-import * as posts from './posts';
+import * as booking from './booking';
+import * as notification from './notification';
 
-export default { ...users, ...posts };
+export default { ...booking, ...notification };

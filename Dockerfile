@@ -8,3 +8,5 @@ COPY bun.lockb bun.lockb
 
 RUN bun install
 COPY . .
+
+RUN bun swagger

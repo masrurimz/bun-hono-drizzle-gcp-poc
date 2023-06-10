@@ -15,6 +15,13 @@
       "when": 1686125093188,
       "tag": "0001_busy_goliath",
       "breakpoints": false
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1686431357784,
+      "tag": "0002_aromatic_vulcan",
+      "breakpoints": false
     }
   ]
 }

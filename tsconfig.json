@@ -4,6 +4,9 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "strict": true,
-    "types": ["bun-types"]
+    "types": [
+      "bun-types"
+    ],
+    "resolveJsonModule": true
   }
 }
